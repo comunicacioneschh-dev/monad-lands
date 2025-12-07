@@ -88,16 +88,20 @@ jobs:
           echo "Volume: ${{ steps.volume.outputs.volume }} MON"
           node volume-generator.mjs auto-ai ${{ steps.token.outputs.token }} ${{ steps.volume.outputs.volume }} 60
 
-      - name: Send Discord notification
-        if: always() && steps.time-check.outputs.skip != 'true'
+      - name: Send FOMO notification
+        if: success() && steps.time-check.outputs.skip != 'true'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
-          if [ "${{ job.status }}" == "success" ]; then
-            MESSAGE="Volume Bot completed! Generated ~${{ steps.volume.outputs.volume }} MON volume with token #${{ steps.token.outputs.token }}"
-          else
-            MESSAGE="Volume Bot failed - check logs"
-          fi
+          # Random FOMO messages
+          MESSAGES=(
+            "New activity detected on Monad Lands! Check OpenSea"
+            "Lands are moving! Someone just scooped up a rare one"
+            "Volume spike on the collection - whales are watching"
+            "Another sale! The collection is heating up"
+            "Trading activity detected - check the marketplace"
+          )
+          MSG=${MESSAGES[$RANDOM % ${#MESSAGES[@]}]}
           curl -H "Content-Type: application/json" \
-               -d "{\"content\": \"$MESSAGE\"}" \
+               -d "{\"content\": \"$MSG\"}" \
                $DISCORD_WEBHOOK || true
