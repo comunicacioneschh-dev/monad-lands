@@ -81,6 +81,7 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENSEA_API_KEY: ${{ secrets.OPENSEA_API_KEY }}
+          AUX_WALLETS: ${{ secrets.AUX_WALLETS }}
         run: |
           echo "Running AI Strategist..."
           echo "Token: #${{ steps.token.outputs.token }}"
