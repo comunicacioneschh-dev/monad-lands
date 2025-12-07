@@ -36,8 +36,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: scripts/trading-bot/package.json
+          # Note: cache removed - file doesn't exist in gh-pages default branch
 
       - name: Install dependencies
         working-directory: scripts/trading-bot
